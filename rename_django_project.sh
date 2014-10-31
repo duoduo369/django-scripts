@@ -1,28 +1,20 @@
 #!/usr/bin/env bash
-#
-# author yangyang
-# email duoduo3369@gmail.com
-#
-# When you fork a project, you may want to rename.
-# Copy this script to project, and run.
 
-echo "New name?"
-read new_name
-echo "..................................."
-echo "new_name: $new_name"
-echo "..................................."
+echo "New django name?"
+read new_django_name
 
 project_path=$(pwd)
-
-echo "project_path: $project_path"
-
 old_django_name=$(python -c "import os;print os.path.split('$project_path')[1]")
-echo "old_django_name: $old_django_name"
-
 old_django_path_profix=$(python -c "import os;print os.path.split('$project_path')[0]")
-new_project_path="$old_django_path_profix$new_name"
-echo "$new_project_path"
-
-
-
-#grep djangomako_demo -ril ./ | xargs sed -i 's/djangomako_demo/djangopipeline_demo/g'
+new_project_path=$(python -c "import os; print os.path.join('$old_django_path_profix', '$new_django_name')")
+cp -r $project_path $new_project_path
+django_base=$(python -c "import os; print os.path.join('$new_project_path', '$old_django_name')")
+if [ -d $django_base ];
+then
+  new_django_base=$(python -c "import os; print os.path.join('$new_project_path', '$new_django_name')")
+  mv $django_base $new_django_base
+fi
+cd $new_project_path && $(grep $old_django_name -ril ./ | xargs sed -i "s/$old_django_name/$new_django_name/g")
+echo "new files in: $new_project_path"
+echo "please 'cd $new_project_path && grep $old_django_name -ril' all if all string has replaced!"
+echo "done"
