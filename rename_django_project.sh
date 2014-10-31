@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+#
+# author yangyang
+# email duoduo3369@gmail.com
+#
+# When you fork a project, you may want to rename.
+# Copy this script to project, and run.
 
 echo "New name?"
 read new_name
